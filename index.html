@@ -545,14 +545,59 @@ footer {
   .dif-grid { grid-template-columns:repeat(2,1fr); }
 }
 @media (max-width:767px) {
-  .sec, .sec-sm { padding:72px 0; }
-  .hero { grid-template-columns:1fr; padding-top:100px; min-height:auto; }
-  .hero-right { display:none; }
-  .hero-left { padding:0 0 48px; }
-  .pain-grid, .trat-grid, .trat-grid.rev, .sobre-grid { grid-template-columns:1fr; gap:40px; direction:ltr; }
-  .nav-cta { display:none; }
+  .sec, .sec-sm { padding:64px 0; }
+
+  /* ── HERO ── */
+  .hero {
+    display:block;
+    padding:56px 20px 40px;
+    min-height:100svh;
+    box-sizing:border-box;
+  }
+  .hero-right  { display:none !important; }
+  .hero-left   { padding:0; width:100%; }
+
+  /* Esconder badges no mobile */
+  .hero-badges { display:none !important; }
+
+  /* Hero actions: coluna, itens no tamanho natural */
+  .hero-actions {
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:flex-start !important;
+    gap:12px;
+    margin-bottom:0;
+  }
+
+  /* Botão CTA: tamanho próprio, nunca estica */
+  .hero-actions a.btn-gold {
+    display:inline-flex !important;
+    width:auto !important;
+    align-self:flex-start !important;
+    padding:0 28px !important;
+    font-size:12px !important;
+    min-height:50px !important;
+    white-space:nowrap !important;
+  }
+
+  /* Esconder "Ver Tratamentos" no mobile */
+  .hero-actions a.btn-dark {
+    display:none !important;
+  }
+
+  /* ── GRIDS ── */
+  .pain-grid,
+  .trat-grid,
+  .trat-grid.rev,
+  .sobre-grid {
+    grid-template-columns:1fr;
+    gap:36px;
+    direction:ltr;
+  }
+
+  .nav-cta  { display:none !important; }
   .dif-grid { grid-template-columns:1fr; }
-  .container { padding:0 18px; }
+  .container { padding:0 20px; }
 }
 
 
@@ -668,6 +713,85 @@ section > .hero-right,
   position:relative; z-index:1;
 }
 
+
+/* ============================================================
+   TICKER DE PROCEDIMENTOS
+============================================================ */
+.ticker-wrap {
+  width:100%; overflow:hidden;
+  background: var(--gold);
+  padding:13px 0;
+  position:relative; z-index:2;
+}
+
+.ticker-wrap::before,
+.ticker-wrap::after {
+  content:''; position:absolute; top:0; bottom:0; width:60px; z-index:1;
+  pointer-events:none;
+}
+.ticker-wrap::before { left:0;  background:linear-gradient(to right, var(--gold), transparent); }
+.ticker-wrap::after  { right:0; background:linear-gradient(to left,  var(--gold), transparent); }
+
+.ticker-track {
+  display:flex; align-items:center;
+  width:max-content;
+  animation: ticker-scroll 32s linear infinite;
+}
+.ticker-track:hover { animation-play-state:paused; }
+
+@keyframes ticker-scroll {
+  0%   { transform:translateX(0); }
+  100% { transform:translateX(-50%); }
+}
+
+.ticker-item {
+  display:inline-flex; align-items:center; gap:18px;
+  padding:0 28px; white-space:nowrap;
+  font-size:11px; font-weight:800;
+  letter-spacing:0.24em; text-transform:uppercase;
+  color:var(--d1);
+}
+
+.ticker-dot {
+  width:4px; height:4px; border-radius:50%;
+  background:var(--d1); opacity:0.4; flex-shrink:0;
+}
+
+@media (prefers-reduced-motion:reduce) {
+  .ticker-track { animation:none; }
+}
+
+
+/* ── Credential cards no hero ── */
+.hero-credentials {
+  display:none; /* só no mobile */
+}
+
+@media (max-width:767px) {
+  .hero-credentials {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-top:32px;
+    width:100%;
+  }
+  .cred-card {
+    background:rgba(201,162,74,0.07);
+    border:1px solid var(--gold-line);
+    padding:16px 14px;
+    display:flex; flex-direction:column; gap:4px;
+  }
+  .cred-num {
+    font-size:26px; font-weight:800;
+    color:var(--gold-lt); line-height:1;
+    letter-spacing:-0.02em;
+  }
+  .cred-label {
+    font-size:10px; font-weight:600;
+    letter-spacing:0.18em; text-transform:uppercase;
+    color:var(--cream2); line-height:1.4;
+  }
+}
 </style>
 </head>
 <body>
@@ -763,14 +887,33 @@ section > .hero-right,
     <div class="hero-actions r d3">
       <a href="https://wa.me/55SEUNUMERO" class="btn btn-gold"
          target="_blank" rel="noopener noreferrer"
-         aria-label="Agendar avaliação gratuita">
+         aria-label="Agendar avaliação gratuita"
+         style="align-self:flex-start; width:auto; white-space:nowrap;">
         Agendar Minha Avaliação Gratuita
       </a>
-      <a href="#tratamentos" class="btn btn-dark">
-        Ver Tratamentos
-      </a>
+
     </div>
 
+
+    <!-- Cards de credencial — visíveis só no mobile para preencher o hero -->
+    <div class="hero-credentials" aria-label="Números da Previora">
+      <div class="cred-card">
+        <span class="cred-num">8</span>
+        <span class="cred-label">Especialidades</span>
+      </div>
+      <div class="cred-card">
+        <span class="cred-num">2</span>
+        <span class="cred-label">Especialistas dedicadas</span>
+      </div>
+      <div class="cred-card">
+        <span class="cred-num">100%</span>
+        <span class="cred-label">Avaliação gratuita</span>
+      </div>
+      <div class="cred-card">
+        <span class="cred-num">BSB</span>
+        <span class="cred-label">Brasília, DF</span>
+      </div>
+    </div>
     <div class="hero-badges r d4" role="list">
       <div class="hero-badge" role="listitem">
         <div class="badge-icon" aria-hidden="true">
@@ -830,6 +973,78 @@ section > .hero-right,
 
 </section>
 
+<!-- TICKER DE PROCEDIMENTOS -->
+<div class="ticker-wrap" aria-label="Procedimentos disponíveis" role="marquee">
+  <div class="ticker-track" aria-hidden="true">
+    
+      <span class="ticker-item">
+        <span class="ticker-dot" aria-hidden="true"></span>
+        Implantes Dentários
+      </span>
+      <span class="ticker-item">
+        <span class="ticker-dot" aria-hidden="true"></span>
+        Clareamento Dental
+      </span>
+      <span class="ticker-item">
+        <span class="ticker-dot" aria-hidden="true"></span>
+        Tratamento de Gengiva
+      </span>
+      <span class="ticker-item">
+        <span class="ticker-dot" aria-hidden="true"></span>
+        Bruxismo & Botox
+      </span>
+      <span class="ticker-item">
+        <span class="ticker-dot" aria-hidden="true"></span>
+        Harmonização Orofacial
+      </span>
+      <span class="ticker-item">
+        <span class="ticker-dot" aria-hidden="true"></span>
+        Tratamento de Canal
+      </span>
+      <span class="ticker-item">
+        <span class="ticker-dot" aria-hidden="true"></span>
+        Cuidado Oncológico
+      </span>
+      <span class="ticker-item">
+        <span class="ticker-dot" aria-hidden="true"></span>
+        Limpeza & Prevenção
+      </span>
+    
+      <span class="ticker-item">
+        <span class="ticker-dot" aria-hidden="true"></span>
+        Implantes Dentários
+      </span>
+      <span class="ticker-item">
+        <span class="ticker-dot" aria-hidden="true"></span>
+        Clareamento Dental
+      </span>
+      <span class="ticker-item">
+        <span class="ticker-dot" aria-hidden="true"></span>
+        Tratamento de Gengiva
+      </span>
+      <span class="ticker-item">
+        <span class="ticker-dot" aria-hidden="true"></span>
+        Bruxismo & Botox
+      </span>
+      <span class="ticker-item">
+        <span class="ticker-dot" aria-hidden="true"></span>
+        Harmonização Orofacial
+      </span>
+      <span class="ticker-item">
+        <span class="ticker-dot" aria-hidden="true"></span>
+        Tratamento de Canal
+      </span>
+      <span class="ticker-item">
+        <span class="ticker-dot" aria-hidden="true"></span>
+        Cuidado Oncológico
+      </span>
+      <span class="ticker-item">
+        <span class="ticker-dot" aria-hidden="true"></span>
+        Limpeza & Prevenção
+      </span>
+  </div>
+</div>
+
 
 <!-- ===================================================
      PAIN — light warm section
@@ -846,9 +1061,7 @@ section > .hero-right,
         <div class="pain-body r d2" style="margin-top:28px;">
           <p>Tratamento indicado sem você entender o porquê. Dor que ficou sem resposta. Medo de sentar na cadeira que virou hábito de evitar.</p>
           <br>
-          <p><strong>Muita gente carrega isso sozinha.</strong> Não por falta de cuidado. Por não ter encontrado um lugar que realmente olhe para você.</p>
-          <br>
-          <p>A Previora foi construída para ser esse lugar.</p>
+          <p><strong>Muita gente carrega isso sozinha.</strong> Não por falta de cuidado. Por não ter encontrado um lugar que realmente olhe para você. A Previora foi construída para ser esse lugar.</p>
         </div>
       </div>
 
