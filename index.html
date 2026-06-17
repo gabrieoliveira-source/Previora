@@ -550,7 +550,7 @@ footer {
   /* ── HERO ── */
   .hero {
     display:block;
-    padding:56px 20px 40px;
+    padding:44px 20px 40px;
     min-height:100svh;
     box-sizing:border-box;
   }
@@ -566,15 +566,19 @@ footer {
     flex-direction:column !important;
     align-items:flex-start !important;
     gap:12px;
-    margin-bottom:0;
+    margin:0 !important;
+    padding:0 !important;
+    width:100%;
   }
 
-  /* Botão CTA: tamanho próprio, nunca estica */
+  /* Botão CTA: alinhado à esquerda, tamanho próprio */
   .hero-actions a.btn-gold {
     display:inline-flex !important;
     width:auto !important;
+    max-width:100% !important;
     align-self:flex-start !important;
-    padding:0 28px !important;
+    margin-left:0 !important;
+    padding:0 24px !important;
     font-size:12px !important;
     min-height:50px !important;
     white-space:nowrap !important;
@@ -888,7 +892,7 @@ section > .hero-right,
       <a href="https://wa.me/55SEUNUMERO" class="btn btn-gold"
          target="_blank" rel="noopener noreferrer"
          aria-label="Agendar avaliação gratuita"
-         style="align-self:flex-start; width:auto; white-space:nowrap;">
+         style="align-self:flex-start; width:auto; white-space:nowrap; margin-left:0;">
         Agendar Minha Avaliação Gratuita
       </a>
 
