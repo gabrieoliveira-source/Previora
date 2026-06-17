@@ -116,16 +116,19 @@ body {
 ============================================================ */
 .nav {
   position:fixed; top:0; left:0; right:0; z-index:100;
-  padding:14px 24px;
+  padding:12px 24px;
   display:flex; align-items:center; justify-content:space-between;
-  transition: background 280ms var(--ease), border 280ms;
+  gap:16px;
+  background: transparent;
+  transition: background 280ms var(--ease), border 280ms,
+              backdrop-filter 280ms;
 }
 .nav.scrolled {
-  background:rgba(11,8,5,0.94);
-  backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px);
+  background:rgba(11,8,5,0.96);
+  backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
   border-bottom:1px solid var(--gold-line);
 }
-.nav-brand { display:flex; flex-direction:row; align-items:center; gap:12px; text-decoration:none; }
+.nav-brand { display:flex; flex-direction:row; align-items:center; gap:12px; text-decoration:none; min-width:0; flex-shrink:1; }
 .nav-logo-img {
   height:52px; width:52px; object-fit:cover;
   flex-shrink:0; border-radius:50%;
@@ -133,9 +136,18 @@ body {
   background:var(--d3);
   padding:2px;
 }
-.nav-name  { font-size:20px; font-weight:800; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold); line-height:1; }
-.nav-tag   { font-size:9px; font-weight:500; letter-spacing:0.22em; text-transform:uppercase; color:var(--t-light2); margin-top:3px; }
-.nav-cta   { min-height:44px; padding:0 22px; font-size:11px; }
+.nav-name  { font-size:18px; font-weight:800; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold); line-height:1; text-shadow:0 1px 8px rgba(0,0,0,0.6); white-space:nowrap; }
+.nav-tag   { font-size:9px; font-weight:500; letter-spacing:0.2em; text-transform:uppercase; color:var(--t-light2); margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.nav-cta {
+  min-height:44px; padding:0 20px; font-size:10px;
+  flex-shrink:0; white-space:nowrap;
+  opacity:0; pointer-events:none;
+  transform:translateY(-6px);
+  transition:opacity 280ms var(--ease), transform 280ms var(--ease);
+}
+.nav.scrolled .nav-cta {
+  opacity:1; pointer-events:auto; transform:translateY(0);
+}
 
 /* ============================================================
    TOP BAR
@@ -152,7 +164,7 @@ body {
 ============================================================ */
 .hero {
   min-height:100svh;
-  padding-top:120px;
+  padding-top:128px;
   display:grid; grid-template-columns:1fr 1fr;
   align-items:center; gap:40px;
   position:relative; overflow:hidden;
@@ -1147,7 +1159,11 @@ section > .hero-right,
 (function(){
   'use strict';
   const nav = document.querySelector('.nav');
-  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 60), { passive:true });
+  function onScroll() {
+    nav.classList.toggle('scrolled', window.scrollY > 80);
+  }
+  window.addEventListener('scroll', onScroll, { passive:true });
+  onScroll(); // estado inicial
 
   const els = document.querySelectorAll('.r');
   if ('IntersectionObserver' in window) {
